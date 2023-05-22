@@ -1,0 +1,121 @@
+♡ 01
+public class Demo implements Serializable { //ต้องมี
+
+    private int id;
+    private String name;
+
+    public Demo(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+-------------------------------------------------------------------------------------------
+♡ 01
+public class LAB5 {
+    public static void main(String[] args) {
+        Demo demo1 = new Demo(111,"one");
+        Demo demo2 = new Demo(222,"two");
+        Demo demo3 = new Demo(333,"three");
+        Demo demo4 = new Demo(444,"four");
+        Demo demo5 = new Demo(555,"five");
+        ArrayList<Demo> demoList1 = new ArrayList<>();
+        ArrayList<Demo> demoList2;
+        demoList1.add(demo1);
+        demoList1.add(demo2);
+        demoList1.add(demo3);
+        demoList1.add(demo4);
+        demoList1.add(demo5);
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("object.dat"));
+            objectOutputStream.writeObject(demoList1);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("object.dat"));
+            demoList2 = (ArrayList<Demo>) objectInputStream.readObject();
+            for (Demo demo : demoList2) {
+                System.out.println(demo.getId() + " " + demo.getName());
+                System.out.println();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------
+
+♡ 02
+public class LAB4 {
+    public static void main(String[] args) {
+        String s = "Hello World!";
+        byte[] b = s.getBytes();
+        try {
+            FileOutputStream file = new FileOutputStream("data.dat");
+            BufferedOutputStream output = new BufferedOutputStream(file);
+            output.write(b);
+            output.flush();
+            output.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB4.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB4.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            FileInputStream file = new FileInputStream("data.dat");
+            BufferedInputStream input = new BufferedInputStream(file);
+            int ch;
+            while ((ch = input.read()) != -1) {
+                System.out.print((char)ch);
+            }
+        }catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB4.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB4.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------
+
+♡ 03
+public static void main(String[] args) throws FileNotFoundException {
+        try {
+            FileOutputStream file = new FileOutputStream("data.dat");
+            DataOutputStream output = new DataOutputStream(file);
+            output.writeUTF("Jim Henry");
+            output.writeInt(30);
+            output.writeDouble(65.5);
+            output.writeChar('A');
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB3.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB3.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            FileInputStream file = new FileInputStream("data.dat");
+            DataInputStream input = new DataInputStream(file);
+            System.out.println(input.readUTF());
+            System.out.println(input.readInt());
+            System.out.println(input.readDouble());
+            System.out.println(input.readChar());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB3.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB3.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }

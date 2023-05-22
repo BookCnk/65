@@ -1,0 +1,373 @@
+♡ 01   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
+
+IDE
+chanakarn.krue@gmail.com
+b1o2o3k4
+
+git
+bookchanakarn@gmail.com
+ck208321as
+
+try {
+            FileWriter output = new FileWriter("data.txt");
+            output.write("Hello World!");
+            output.write("Welcome to Java");
+            output.close();
+        } catch (IOException ex) {
+            Logger.getLogger(LAB1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            int ch;
+            FileReader input = new FileReader("data.txt");
+            while ((ch = input.read()) != -1) {
+                System.out.println((char)ch);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB1.class.getName()).log(Level.SEVERE, null, ex);
+
+ ควย 01.1 try { 
+            String s;
+            FileReader file = new FileReader("data.txt");
+            BufferedReader input = new BufferedReader(file);
+            while ((s = input.readLine()) != null) {
+                System.out.println(s);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }
+
+♡ 02
+try {
+            PrintWriter output = new PrintWriter("data.txt");
+            output.println("Harry Potter");
+            output.println(19);
+            output.println(60.5);
+            output.println(175.0);
+            output.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB3.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            String s;
+            FileReader file = new FileReader("data.txt");
+            BufferedReader input = new BufferedReader(file);
+            while ((s = input.readLine()) != null) {
+                System.out.println(s);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB2.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LAB2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+♡
+try {
+            PrintWriter output = new PrintWriter("data.txt");
+            output.println("John Wok");
+            output.println(19);
+            output.println(74.5);
+            output.println(175.0);
+            output.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB3.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            FileReader file = new FileReader("data.txt");
+            Scanner input = new Scanner(file);
+            String name = input.nextLine();
+            System.out.println(name);
+            int age = input.nextInt();
+            System.out.println(age);
+            double weight = input.nextDouble();
+            System.out.println(weight);
+            double height = input.nextDouble();
+            System.out.println(height);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LAB2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+------------------------------------------------------------------------------
+♡
+public static void main(String[] args) throws FileNotFoundException {
+        try {
+            PrintWriter output = new PrintWriter("data.txt");
+            output.println("Book");
+            output.println(30);
+            output.println(74.5);
+            output.println(175.0);
+            output.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            FileReader file = new FileReader("data.txt");
+            Scanner input = new Scanner(file);
+            String name = input.nextLine();
+            System.out.println("Name: " + name);
+            int age = input.nextInt();
+            System.out.println("Age: " + age);
+            double weight = input.nextDouble();
+            System.out.println("Weight: " + weight);
+            double height = input.nextDouble();
+            System.out.println("Height: " + height);
+            double heightcm = height / 100;
+
+            // Calculate BMI
+            double bmi = weight / (heightcm * heightcm);
+            System.out.println("BMI: " + bmi);
+
+            input.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+------------------------------------------------------------------------------
+╰⋃╯ Diary
+
+public class JournalEntry {
+    private LocalDateTime time;
+    private String text;
+    public JournalEntry(String text) {
+        time = LocalDateTime.now();
+        this.text = text;
+    }
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+
+╰⋃╯
+
+public class JournalManager {
+    File file = new File("Diary.txt");
+    public void writeEntry(JournalEntry entry) {
+        String note = entry.getTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")) + " - " + entry.getText() + "\n";
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter (file,true));
+            bufferedWriter.write(note);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public List<String> readEntries() {
+        int count = 0;
+        String checkEmpty;
+        List<String> entriesList = new ArrayList<>();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            while ((checkEmpty = bufferedReader.readLine()) != null) {
+                entriesList.add(checkEmpty);
+                count++;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (count == 0) {
+            entriesList.add("No personal");
+        }
+        return entriesList;
+    }
+    public boolean deleteEntries(LocalDateTime timestamp) {
+        boolean isDeleted = false;
+        String checkEmpty;
+        List<String> entriesList = new ArrayList<>();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            while ((checkEmpty = bufferedReader.readLine()) != null) {
+                entriesList.add(checkEmpty);
+            }
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            for (String entry : entriesList) {
+                if (entry.startsWith(timestamp.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))) {
+                    isDeleted = true;
+                } else {
+                    bufferedWriter.write(entry + "\n");
+                    bufferedWriter.flush();
+                }
+            }
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return isDeleted;
+    }
+
+    public void clearEntries() {
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+╰⋃╯
+
+public static void main(String[] args) {
+        int functionChoices;
+        String textInput;
+        JournalManager journalManager = new JournalManager();
+        Scanner scanner = new Scanner(System.in);
+        do {
+            System.out.println("Welcome to Personal Journal Application");
+            System.out.println("1. Add your personal");
+            System.out.println("2. Read your personal");
+            System.out.println("3. Delete your personal");
+            System.out.println("4. Clear all personal");
+            System.out.println("5. Exit");
+            System.out.print("Select an option : ");
+            functionChoices = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println();
+            switch (functionChoices) {
+                case 1 :
+                    System.out.print("Enter your personal : ");
+                    textInput = scanner.nextLine();
+                    System.out.println();
+                    journalManager.writeEntry(new JournalEntry(textInput));
+                    System.out.println("Write Successfully");
+                    break;
+                case 2 :
+                    System.out.println("This is all of your personal\n");
+                    for (String entry : journalManager.readEntries()) {
+                        System.out.println(entry);
+                    }
+                    break;
+                case 3 :
+                    System.out.print("Enter your time : ");
+                    textInput = scanner.nextLine();
+                    System.out.println();
+                    LocalDateTime date = LocalDateTime.parse(textInput, DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+                    if (journalManager.deleteEntries(date)) {
+                        System.out.println("Delete Successfully");
+                    } else {
+                        System.out.println("Personal Not Found");
+                    }
+                    break;
+                case 4 :
+                    journalManager.clearEntries();
+                    System.out.println("Clear All Entries Successfully");
+                    break;
+                case 5 :
+                    System.out.println("Exit application");
+                    break;
+                default :
+                    System.out.println("Invalid option");
+                    break;
+            }
+            System.out.println();
+        } while (functionChoices != 5);
+    }
+------------------------------------------------------------------------------
+╰⋃╯ cal big BMI
+
+public class Person {
+    private String name;
+    private int age ;
+    private double height ;
+    private double weight ;
+    public Person(String name, int age, double height, double weight) {
+        this.name = name;
+        this.age = age;
+        this.height = height;
+        this.weight = weight;
+    }
+    public String getName() {
+        return name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public double getHeight() {
+        return height;
+    }
+    public double getWeight() {
+        return weight;
+    }
+}
+
+╰⋃╯  
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.Scanner;
+public class DataManager {
+    public void writeData(Person person) {
+        try {
+            PrintWriter output = new PrintWriter("kuay.txt");
+            output.println(person.getName());
+            output.println(person.getAge());
+            output.println(person.getHeight());
+            output.println(person.getWeight());
+            output.flush();
+            output.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public double calculateBMI() {
+
+        double bmi = 0;
+        try {
+            FileReader file = new FileReader("kuay.txt");
+            Scanner input = new Scanner(file);
+            String name = input.nextLine();
+            int age = input.nextInt();
+            double height = input.nextDouble();
+            double weight = input.nextDouble();
+
+            double heightcm = height / 100;
+
+            bmi = weight / (heightcm * heightcm);
+            
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return bmi;
+    }
+}
+
+╰⋃╯
+public class Main {
+    public static void main(String[] args) throws FileNotFoundException {
+        DataManager b1 = new DataManager();
+        b1.writeData(new Person("game", 19,175,75));
+        try {
+            FileReader file = new FileReader("kuay.txt");
+            Scanner input = new Scanner(file);
+            String name = input.nextLine();
+            System.out.println("Name: " + name);
+            int age = input.nextInt();
+            System.out.println("Age: " + age);
+            double weight = input.nextDouble();
+            System.out.println("Weight: " + weight);
+            double height = input.nextDouble();
+            System.out.println("Height: " + height);
+            double heightcm = height / 100;
+
+            input.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("BMI = " + b1.calculateBMI());
+        System.out.println(String.format("BMI = %.3f", b1.calculateBMI())); // 3 ตำแหน่ง
+    }
+}
+
+
+
+
